@@ -1,0 +1,7 @@
+127.0.0.1	    localhost
+10.10.0.10      gateway.host
+10.10.0.100     lb.host
+10.10.0.101     api1.host
+10.10.0.102     api2.host
+10.10.0.103     api3.host
+10.10.0.110     mysql.host

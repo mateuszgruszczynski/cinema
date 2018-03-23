@@ -1,0 +1,110 @@
+version: '2.3'
+services:
+
+  api-1:
+    build: cinema-http/
+    mem_limit: 512M
+    ports:
+      - "9010:9000"
+    cpus: 0.25
+    volumes:
+     - ./etc/hosts:/etc/hosts
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.101
+
+  api-2:
+    build: cinema-http/
+    mem_limit: 512M
+    ports:
+      - "9020:9000"
+    cpus: 0.25
+    volumes:
+         - ./etc/hosts:/etc/hosts
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.102
+
+  api-3:
+    build: cinema-http/
+    mem_limit: 512M
+    ports:
+      - "9030:9000"
+    cpus: 0.25
+    volumes:
+         - ./etc/hosts:/etc/hosts
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.103
+
+  cinema-lb:
+    image: haproxy:alpine
+    ports:
+      - "9000:9000"
+    volumes:
+     - ./etc/hosts:/etc/hosts
+     - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+     - api-1
+     - api-2
+     - api-3
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.100
+
+  mysql:
+    image: mysql
+    mem_limit: 512M
+    cpus: 0.5
+    ports:
+      - "3306:3306"
+    volumes:
+         - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+         - ./sql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+    restart: always
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.110
+    environment:
+      MYSQL_ROOT_PASSWORD: cinemapass
+      MYSQL_USER: cinema
+      MYSQL_PASSWORD: cinemapass
+      MYSQL_DATABASE: cinema_db
+
+  cinema-www:
+    build: frontend/
+    mem_limit: 256M
+    ports:
+      - "80:80"
+    cpus: 0.25
+    volumes:
+         - ./etc/hosts:/etc/hosts
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.200
+
+  cinema-gateway:
+    build: cinema-gateway/
+    mem_limit: 256M
+    ports:
+      - "8000:8000"
+    cpus: 0.25
+    volumes:
+         - ./etc/hosts:/etc/hosts
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.10
+
+networks:
+  cinema:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 10.10.0.0/16
+    driver_opts:
+       com.docker.network.bridge.default_bridge: "false"
+       com.docker.network.bridge.enable_icc: "true"
+       com.docker.network.bridge.enable_ip_masquerade: "true"
+       com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+       com.docker.network.bridge.name: "docker1"
+       com.docker.network.driver.mtu: "1500"

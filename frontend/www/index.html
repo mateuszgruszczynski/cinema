@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>Sample Cinema</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="static/apiclient.js"></script>
+	</head>
+	<body onload="getMovies()">
+		<div id="container">
+			<div id="header"></div>
+			<div id="login">
+				Login: <input id="lg" type="text">
+				Password: <input id="ps" type="password">
+				<button onclick="sendLogin()">Log in</button>
+			</div>
+			<div id="main">
+			<h1>Latest Movies</h1>
+			<div id="movies">
+			</div>
+			</ul>
+		</div>
+	</body>
+</html>
