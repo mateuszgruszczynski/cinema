@@ -3,7 +3,7 @@ services:
 
   api-1:
     build: cinema-http/
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "9010:9000"
     cpus: 0.25
@@ -15,7 +15,7 @@ services:
 
   api-2:
     build: cinema-http/
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "9020:9000"
     cpus: 0.25
@@ -27,7 +27,7 @@ services:
 
   api-3:
     build: cinema-http/
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "9030:9000"
     cpus: 0.25
@@ -39,6 +39,8 @@ services:
 
   cinema-lb:
     image: haproxy:alpine
+    mem_limit: 256M
+    cpus: 0.25
     ports:
       - "9000:9000"
     volumes:
@@ -53,9 +55,9 @@ services:
         ipv4_address: 10.10.0.100
 
   mysql:
-    image: mysql
-    mem_limit: 512M
-    cpus: 0.5
+    image: mysql:5.7
+    mem_limit: 256M
+    cpus: 0.25
     ports:
       - "3306:3306"
     volumes:
