@@ -1,6 +1,6 @@
 package com.cinema.http.model
 
-import slick.jdbc.MySQLProfile.api._
+import slick.jdbc.PostgresProfile.api._
 import slick.lifted.Tag
 import com.cinema.http.DBHandler
 
@@ -19,11 +19,11 @@ object OrdersDB extends DBHandler{
 
   class Orders(tag: Tag) extends Table[Order](tag, "orders"){
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
-    def userId = column[Int]("userId")
-    def screeningId = column[Int]("screeningId")
+    def userId = column[Int]("userid")
+    def screeningId = column[Int]("screeningid")
     def status = column[String]("status")
-    def ticketsCount = column[Int]("ticketsCount")
-    def totalPrice = column[BigDecimal]("totalPrice")
+    def ticketsCount = column[Int]("ticketscount")
+    def totalPrice = column[BigDecimal]("totalprice")
 
     def * = (id.?, userId, screeningId, status.?, ticketsCount, totalPrice.?) <> (Order.tupled, Order.unapply)
   }

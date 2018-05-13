@@ -5,3 +5,4 @@
 10.10.0.102     api2.host
 10.10.0.103     api3.host
 10.10.0.110     mysql.host
+10.10.0.130     postgres.host

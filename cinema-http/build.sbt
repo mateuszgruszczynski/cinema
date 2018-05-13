@@ -11,16 +11,23 @@ assemblyOutputPath in assembly := new File("jar/cinema-http.jar")
 assemblyJarName in assembly := "cinema-server.jar"
 mainClass in assembly := Some("com.cinema.http.CinemaApp")
 
+javaOptions ++= Seq(
+  "-Xmx256M"
+)
+
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-http" % "10.0.11" exclude("org.slf4j", "slf4j-log4j12"),
-  "com.typesafe.akka" %% "akka-stream" % "2.5.9" exclude("org.slf4j", "slf4j-log4j12"),
+  "com.typesafe.akka" %% "akka-http" % "10.1.1" exclude("org.slf4j", "slf4j-log4j12"),
+  "com.typesafe.akka" %% "akka-stream" % "2.5.12" exclude("org.slf4j", "slf4j-log4j12"),
   "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
   "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.11",
-  "com.typesafe.slick" %% "slick" % "3.2.1",
-  "com.typesafe.slick" %% "slick-hikaricp" % "3.2.1",
-  "com.lightbend.akka" %% "akka-stream-alpakka-slick" % "0.14",
-  "org.scalikejdbc" %% "scalikejdbc" % "3.2.1",
+  "com.typesafe.slick" %% "slick" % "3.2.3",
+  "com.typesafe.slick" %% "slick-hikaricp" % "3.2.3",
+  "com.lightbend.akka" %% "akka-stream-alpakka-slick" % "0.18",
+  "org.scalikejdbc" %% "scalikejdbc" % "3.2.3",
   "mysql" % "mysql-connector-java" % "6.0.6",
+  "org.postgresql" % "postgresql" % "42.2.2",
+  "com.zaxxer" % "HikariCP" % "2.4.1",
+  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
   //json4s
   "org.json4s" % "json4s-jackson_2.12" % "3.5.3",
   "org.json4s" %% "json4s-ext" % "3.5.3"

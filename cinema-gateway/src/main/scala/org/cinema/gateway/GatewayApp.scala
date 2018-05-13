@@ -8,8 +8,6 @@ import akka.http.scaladsl.model.headers._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Flow, Sink, Source}
-import slick.basic.DatabaseConfig
-import slick.jdbc.JdbcProfile
 
 import scala.concurrent.Future
 import scala.util.{Failure, Random, Success}
@@ -19,14 +17,11 @@ object GatewayApp extends App{
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
 
-  lazy val config = DatabaseConfig.forConfig[JdbcProfile]("db")
-  lazy val db = config.db
-
   val incomingPort = 8000
   val outgoingPort = 9000
 
   def isValidToken(token: String) : Boolean = {
-    Thread.sleep(Random.nextInt(10)+10) // Simulate real token verification
+    Thread.sleep(Random.nextInt(5)+5) // Simulate real token verification
     token == "94ab54b5-f120-4290-a4ec-587dee09206e"
   }
 

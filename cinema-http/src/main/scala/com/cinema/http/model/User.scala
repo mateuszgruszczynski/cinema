@@ -1,5 +1,6 @@
 package com.cinema.http.model
-import slick.jdbc.MySQLProfile.api._
+
+import slick.jdbc.PostgresProfile.api._
 import com.cinema.http.DBHandler
 import slick.lifted.Tag
 
@@ -31,7 +32,7 @@ object UsersDB extends DBHandler {
     def userName = column[String]("username")
     def city = column[String]("city")
     def address = column[String]("address")
-    def birthDate = column[String]("birthDate")
+    def birthDate = column[String]("birthdate")
     def passHash = column[String]("passhash")
     def token = column[String]("token")
 

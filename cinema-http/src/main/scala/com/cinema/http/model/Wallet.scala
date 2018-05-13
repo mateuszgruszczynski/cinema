@@ -1,6 +1,6 @@
 package com.cinema.http.model
 
-import slick.jdbc.MySQLProfile.api._
+import slick.jdbc.PostgresProfile.api._
 import slick.lifted.Tag
 import com.cinema.http.DBHandler
 
@@ -16,7 +16,7 @@ object WalletsDB extends DBHandler {
 
   class Wallets(tag: Tag) extends Table[Wallet](tag, "wallets"){
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
-    def userId = column[Int]("userId")
+    def userId = column[Int]("userid")
     def value = column[BigDecimal]("value")
 
     def * = (id.?, userId, value) <> (Wallet.tupled, Wallet.unapply)

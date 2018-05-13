@@ -75,7 +75,7 @@ object RoutesHandler {
       val wallet = WalletsDB.addWallet(Wallet(None, addedUser.id.get, 0.0))
       complete(StatusCodes.Created -> HttpEntity(ContentTypes.`application/json`, write(addedUser.toSecret)))
     } catch {
-      case e: SQLIntegrityConstraintViolationException => {
+      case e: Exception if e.getMessage.contains("duplicate key")=> {
         complete(StatusCodes.BadRequest -> HttpEntity(ContentTypes.`application/json`, write(Error("Username or email already registered"))))
       }
     }

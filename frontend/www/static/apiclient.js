@@ -1,4 +1,4 @@
-var host = "gateway.host";
+var host = "localhost";
 
 function getMovies() {
 				$.ajax({

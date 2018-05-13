@@ -1,6 +1,6 @@
 package com.cinema.http.model
 
-import slick.jdbc.MySQLProfile.api._
+import slick.jdbc.PostgresProfile.api._
 import slick.lifted.Tag
 import com.cinema.http.DBHandler
 import com.cinema.http.model.WalletsDB.Wallets
@@ -22,11 +22,11 @@ object ScreeningsDB extends DBHandler {
 
   class Screenings(tag: Tag) extends Table[Screening](tag, "screenings"){
     def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
-    def movieId = column[Int]("movieId")
+    def movieId = column[Int]("movieid")
     def city = column[String]("city")
-    def roomNumber = column[Int]("roomNumber")
-    def seatsLimit = column[Int]("seatsLimit")
-    def seatsTaken = column[Int]("seatsTaken")
+    def roomNumber = column[Int]("roomnumber")
+    def seatsLimit = column[Int]("seatslimit")
+    def seatsTaken = column[Int]("seatstaken")
     def time = column[String]("time")
     def price = column[BigDecimal]("price")
 

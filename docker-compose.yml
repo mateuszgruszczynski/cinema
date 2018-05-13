@@ -2,8 +2,9 @@ version: '2.3'
 services:
 
   api-1:
+    #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
       - "9010:9000"
     cpus: 0.25
@@ -14,32 +15,34 @@ services:
         ipv4_address: 10.10.0.101
 
   api-2:
+    #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
       - "9020:9000"
     cpus: 0.25
     volumes:
-         - ./etc/hosts:/etc/hosts
+     - ./etc/hosts:/etc/hosts
     networks:
       cinema:
         ipv4_address: 10.10.0.102
 
   api-3:
+    #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
       - "9030:9000"
     cpus: 0.25
     volumes:
-         - ./etc/hosts:/etc/hosts
+     - ./etc/hosts:/etc/hosts
     networks:
       cinema:
         ipv4_address: 10.10.0.103
 
   cinema-lb:
     image: haproxy:alpine
-    mem_limit: 256M
+    mem_limit: 1G
     cpus: 0.25
     ports:
       - "9000:9000"
@@ -56,7 +59,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    mem_limit: 256M
+    mem_limit: 512M
     cpus: 0.25
     ports:
       - "3306:3306"
@@ -73,14 +76,32 @@ services:
       MYSQL_PASSWORD: cinemapass
       MYSQL_DATABASE: cinema_db
 
+  postgres:
+    image: postgres
+    mem_limit: 128M
+    cpus: 0.25
+    ports:
+      - "5432:5432"
+    volumes:
+         - ./sql/initpg.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.130
+    environment:
+      MYSQL_ROOT_PASSWORD: cinemapass
+      POSTGRES_USER: cinema
+      POSTGRES_PASSWORD: cinemapass
+      POSTGRES_DB: cinema_db
+
   cinema-www:
     build: frontend/
     mem_limit: 256M
+    volumes:
+     - ./etc/hosts:/etc/hosts
     ports:
       - "80:80"
     cpus: 0.25
-    volumes:
-         - ./etc/hosts:/etc/hosts
     networks:
       cinema:
         ipv4_address: 10.10.0.200
@@ -88,11 +109,11 @@ services:
   cinema-gateway:
     build: cinema-gateway/
     mem_limit: 256M
+    volumes:
+     - ./etc/hosts:/etc/hosts
     ports:
       - "8000:8000"
     cpus: 0.25
-    volumes:
-         - ./etc/hosts:/etc/hosts
     networks:
       cinema:
         ipv4_address: 10.10.0.10

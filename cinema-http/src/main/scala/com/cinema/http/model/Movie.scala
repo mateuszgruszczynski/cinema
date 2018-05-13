@@ -1,7 +1,7 @@
 package com.cinema.http.model
 
 import com.cinema.http.DBHandler
-import slick.jdbc.MySQLProfile.api._
+import slick.jdbc.PostgresProfile.api._
 import slick.lifted.Tag
 
 case class Movie(
@@ -16,19 +16,19 @@ case class Movie(
 )
 
 object MoviesDB extends DBHandler {
-
+  
   import scala.concurrent.ExecutionContext.Implicits.global
 
   class Movies(tag: Tag) extends Table[Movie](tag, "movies"){
 
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+    def id = column[Int]("id",O.AutoInc, O.PrimaryKey)
     def title = column[String]("title")
     def director = column[String]("director")
     def genre = column[String]("genre")
     def country = column[String]("country")
     def year = column[Int]("year")
     def tags = column[String]("tags")
-    def ageLimit = column[Int]("ageLimit")
+    def ageLimit = column[Int]("agelimit")
 
     def * = (id.?, title, director, genre, country, year, tags, ageLimit) <> (Movie.tupled, Movie.unapply)
   }
@@ -40,9 +40,11 @@ object MoviesDB extends DBHandler {
       .map(id => movieEntity.copy(id = Some(id)))
   )
 
-  def getMovie(movieId: Int) = awaitQuery[Option[Movie]](
-    db.run(movies.filter(_.id === movieId).result.headOption)
-  )
+  def getMovie(movieId: Int) = {
+    awaitQuery[Option[Movie]](
+      db.run(movies.filter(_.id === movieId).result.headOption)
+    )
+  }
 
   def updateMovie(walletEntity: Movie) = awaitQuery[Int](
     db.run(movies.insertOrUpdate(walletEntity))
