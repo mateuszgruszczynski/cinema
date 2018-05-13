@@ -4,7 +4,7 @@ services:
   api-1:
     #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "9010:9000"
     cpus: 0.25
@@ -17,7 +17,7 @@ services:
   api-2:
     #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "9020:9000"
     cpus: 0.25
@@ -30,7 +30,7 @@ services:
   api-3:
     #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 512M
+    mem_limit: 256M
     ports:
       - "9030:9000"
     cpus: 0.25
@@ -42,7 +42,7 @@ services:
 
   cinema-lb:
     image: haproxy:alpine
-    mem_limit: 1G
+    mem_limit: 256M
     cpus: 0.25
     ports:
       - "9000:9000"
@@ -57,24 +57,24 @@ services:
       cinema:
         ipv4_address: 10.10.0.100
 
-  mysql:
-    image: mysql:5.7
-    mem_limit: 512M
-    cpus: 0.25
-    ports:
-      - "3306:3306"
-    volumes:
-         - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-         - ./sql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
-    restart: always
-    networks:
-      cinema:
-        ipv4_address: 10.10.0.110
-    environment:
-      MYSQL_ROOT_PASSWORD: cinemapass
-      MYSQL_USER: cinema
-      MYSQL_PASSWORD: cinemapass
-      MYSQL_DATABASE: cinema_db
+#  mysql:
+#    image: mysql:5.7
+#    mem_limit: 512M
+#    cpus: 0.25
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#         - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+#         - ./sql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+#    restart: always
+#    networks:
+#      cinema:
+#        ipv4_address: 10.10.0.110
+#    environment:
+#      MYSQL_ROOT_PASSWORD: cinemapass
+#      MYSQL_USER: cinema
+#      MYSQL_PASSWORD: cinemapass
+#      MYSQL_DATABASE: cinema_db
 
   postgres:
     image: postgres
@@ -94,26 +94,26 @@ services:
       POSTGRES_PASSWORD: cinemapass
       POSTGRES_DB: cinema_db
 
-  cinema-www:
-    build: frontend/
-    mem_limit: 256M
-    volumes:
-     - ./etc/hosts:/etc/hosts
-    ports:
-      - "80:80"
-    cpus: 0.25
-    networks:
-      cinema:
-        ipv4_address: 10.10.0.200
+#  cinema-www:
+#    build: frontend/
+#    mem_limit: 256M
+#    volumes:
+#     - ./etc/hosts:/etc/hosts
+#    ports:
+#      - "80:80"
+#    cpus: 0.25
+#    networks:
+#      cinema:
+#        ipv4_address: 10.10.0.200
 
   cinema-gateway:
     build: cinema-gateway/
     mem_limit: 256M
-    volumes:
-     - ./etc/hosts:/etc/hosts
     ports:
       - "8000:8000"
     cpus: 0.25
+    volumes:
+      - ./etc/hosts:/etc/hosts
     networks:
       cinema:
         ipv4_address: 10.10.0.10
