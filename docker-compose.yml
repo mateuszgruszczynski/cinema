@@ -131,6 +131,14 @@ services:
     networks:
       cinema:
         ipv4_address: 10.10.0.222
+        
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      cinema:
+        ipv4_address: 10.10.0.233  
 
 networks:
   cinema:
