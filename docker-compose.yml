@@ -4,10 +4,10 @@ services:
   api-1:
     #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
       - "9010:9000"
-    cpus: 0.25
+    cpus: 0.4
     volumes:
      - ./etc/hosts:/etc/hosts
     networks:
@@ -17,10 +17,10 @@ services:
   api-2:
     #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
       - "9020:9000"
-    cpus: 0.25
+    cpus: 0.4
     volumes:
      - ./etc/hosts:/etc/hosts
     networks:
@@ -30,10 +30,10 @@ services:
   api-3:
     #hostname: 10.10.0.10
     build: cinema-http/
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
       - "9030:9000"
-    cpus: 0.25
+    cpus: 0.4
     volumes:
      - ./etc/hosts:/etc/hosts
     networks:
@@ -139,6 +139,18 @@ services:
     networks:
       cinema:
         ipv4_address: 10.10.0.233  
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    user: jenkins
+    volumes:
+      - ./jenkins/secrets:/var/jenkins_home/secrets
+    ports:
+      - "8080:8080"
+      - "5000:5000"
+      - "50000:50000"
+    environment:
+      JENKINS_HOST_HOME: "data/jenkins"  
 
 networks:
   cinema:
